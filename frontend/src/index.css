@@ -1,0 +1,155 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.location-btn{
+  padding: 1.5em;
+  background: lightgrey;
+  border: none;
+  border-radius: 50%;
+  color: #444;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .2rem;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
+  transition: .2s ease-in-out;
+  box-shadow: -6px -6px 14px rgba(255, 255, 255, .07),
+              -6px -6px 10px rgba(255, 255, 255, .075),
+              6px 6px 8px rgba(255, 255, 255, .075),
+              6px 6px 10px rgba(0, 0, 0, .15);
+
+}
+
+
+.map-container {
+  height: 500px;
+  width: auto;
+}
+
+.sidebar {
+  background-color: rgba(35, 55, 75, 0.9);
+  color: #fff;
+  padding: 6px 12px;
+  font-family: monospace;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+  border-radius: 4px;
+}
+
+/* Styling for the map controls */
+.map-controls {
+  /* position: absolute; */
+  display: flex;
+  flex-direction: row;
+  background: #f5f5f5;
+}
+
+.map-controls button {
+  padding: 1em;
+  background: lightgrey;
+  border: none;
+  border-radius: 50%;
+  color: #444;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .2rem;
+  text-align: center;
+  outline: none;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: .2s ease-in-out;
+  box-shadow: -6px -6px 14px rgba(255, 255, 255, .07),
+              -6px -6px 10px rgba(255, 255, 255, .075),
+              6px 6px 8px rgba(255, 255, 255, .075),
+              6px 6px 10px rgba(0, 0, 0, .15);
+
+}
+
+.map-controls button:hover {
+  background: white;
+  color: black;
+  
+}
+
+/* Adjust the spacing and styling for better appearance */
+.map-controls button:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+}
+
+
+
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
+
+/* Style for the input field */
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+/* Style for the search button */
+.search-bar button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+/* Style for the search results container */
+.search-results {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  position: absolute;
+  z-index: 1;
+  width: 60%;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Style for individual search results */
+.search-results ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style for individual search result items */
+.search-results ul li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Hover effect for search result items */
+.search-results ul li:hover {
+  background-color: #f2f2f2;
+}
