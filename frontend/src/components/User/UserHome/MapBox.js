@@ -52,14 +52,34 @@ export default function MapBox() {
   const [handicapAvailable, setHandicapAvailable] = React.useState(false);
   const [babyChangingStationAvailable, setBabyChangingStationAvailable] = React.useState(false);
   const [rating, setRating] = React.useState(0);
+  const [filterRating, setFilterRating] = useState(0); // 0 means no rating filter
+
+  // Update the handleRatingChange to set filterRating
+  const handleRatingChange = (event) => {
+    setRating(Number(event.target.value)); // existing line
+    setFilterRating(Number(event.target.value)); // new line
+  };
   const handleClick = (event) => {
     setAnchor(anchor ? null : event.currentTarget);
   };
-
-  const handleRatingChange = (event) => {
-    setRating(Number(event.target.value));
+  const handleFilterSubmit = () => {
+    // Apply Filters based on the state
+    const filteredData = applyFilters(formDatas);
+  
+    // Update restroom markers
+    renderRestroomMarkers(filteredData);
+  
+    // Close the popup
+    setAnchor(null);
   };
-
+  const applyFilters = (data) => {
+    return data.filter(item => {
+      const meetsHandicapCriteria = !handicapAvailable || item.handicap;
+      const meetsBabyChangingCriteria = !babyChangingStationAvailable || item.babyChangingStation;
+      const meetsRatingCriteria = !rating || item.rating >= rating;
+      return meetsHandicapCriteria && meetsBabyChangingCriteria && meetsRatingCriteria;
+    });
+  };
   
   
   
@@ -72,6 +92,7 @@ export default function MapBox() {
     try {
       const querySnapshot = await getDocs(collection(db, "pins"));
       const newData = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      //newData = applyFilters(newData);
       setFormDatas(newData);
       renderRestroomMarkers(newData);
       console.log(newData);
@@ -119,7 +140,8 @@ export default function MapBox() {
   }
   useEffect(() => {
     fetchPost();
-  }, [])
+    handleFilterSubmit();
+  }, [handicapAvailable, babyChangingStationAvailable, filterRating]);
 
   const renderRestroomMarkers = (data) => {
     Object.values(restroomMarkers.current).forEach((marker) => {
@@ -164,44 +186,7 @@ export default function MapBox() {
     });
   };
 
-  const handleSubmit = () => {
-    // Create a filter object based on the selected filter criteria
-    const filters = {
-      handicapAvailable,
-      babyChangingStationAvailable,
-      rating,
-    };
-
-    // Filter the restroom data based on the selected filters
-    const filteredRestrooms = formDatas.filter((restroom) => {
-      // Check if the restroom meets the handicap availability filter
-      if (filters.handicapAvailable && !restroom.handicap) {
-        return false;
-      }
-
-      // Check if the restroom meets the baby changing station availability filter
-      if (filters.babyChangingStationAvailable && !restroom.babyChangingStation) {
-        return false;
-      }
-
-      // Check if the restroom's rating is not equal to the selected rating
-      if (filters.rating > 0 && restroom.rating !== filters.rating + 1) {
-        return false;
-      }
-
-      return true;
-    });
-
-    renderRestroomMarkers(filteredRestrooms);
-    setAnchor(null);
-  };
-
-
   const [selectedRestroom, setSelectedRestroom] = useState(null);
-  const handleLanguageChange = (event) => {
-    const selectedLanguage = event.target.value;
-    setMapLanguage(selectedLanguage);
-  };
 
 
   useEffect(() => {
@@ -264,9 +249,7 @@ export default function MapBox() {
     }
   };
 
-  const fiterMethod = () => {
 
-  }
 
   const showUserLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -291,27 +274,7 @@ export default function MapBox() {
     }
   };
 
-  const calculateRoute = () => {
-    // Calculate a walking route from the default location to the selected location
-    directionsRef.current.setOrigin([-97.1526, 33.2075]);
-    directionsRef.current.setDestination([selectedRestroom.coordinates[0], selectedRestroom.coordinates[1]]);
-  };
-
-  const handleSearchLocation = () => {
-    // Use the Mapbox Geocoding API to search for the entered location
-    fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${searchLocation}.json?access_token=${mapboxgl.accessToken}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // Extract search results from the API response
-        const results = data.features;
-
-        // Update the search results state
-        setSearchResults(results);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  };
+  
 
   const handleSearchInputChange = (event) => {
     const query = event.target.value;
@@ -370,6 +333,7 @@ export default function MapBox() {
 
 
         setSearchQuery('');
+        handleAutocompleteSelection('')
 
         // You can add more code here to customize how the search result is displayed on the map.
       })
@@ -393,10 +357,10 @@ export default function MapBox() {
         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
       </div> */}
 
-      <Alert severity="warning" style={alertstyle}>
+      {/* <Alert severity="warning" style={alertstyle}>
         <AlertTitle>Info</AlertTitle>
         Type Near in the text field and click on Submit  <strong>to Get nearest RestRooms</strong>
-      </Alert>
+      </Alert> */}
       <form onSubmit={handleSearchSubmit}>
         <div className="search-container">
           <input
@@ -410,11 +374,14 @@ export default function MapBox() {
           <button type="submit">Search</button>
         </div>
       </form>
-      <ul>
+      <ul style={{border:'1px solid white',top:'0',marginLeft:'15px',marginTop:'0px',width:'87%',borderRadius:'0px 0px 20px 20px',  boxShadow: '6px 6px 12px #d1d1d1, -6px -6px 12px #ffffff', backgroundColor:'white'
+}}>
         {autocompleteSuggestions.map((suggestion, index) => (
-          <li key={index} onClick={() => handleAutocompleteSelection(suggestion)} style={{ cursor: 'pointer' }}>
+          <li key={index} onClick={() => handleAutocompleteSelection(suggestion)} style={{ cursor: 'pointer' , padding:'25px',paddingTop:'5px',paddingBottom:'0px'}}>
             {suggestion}
+            
           </li>
+          
         ))}
       </ul>
 
@@ -459,15 +426,15 @@ export default function MapBox() {
             <label>
               Rating:
               <select value={rating} onChange={handleRatingChange}>
-                <option value="0">1</option>
-                <option value="1">2</option>
-                <option value="2">3</option>
-                <option value="3">4</option>
-                <option value="4">5</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
               </select>
             </label>
             <br />
-            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={handleFilterSubmit} >Submit</button>
           </div>
         </PopupBody>
       </BasePopup>
@@ -510,60 +477,57 @@ const blue = {
 
 const PopupBody = styled('div')(
   ({ theme }) => `
-  width: 300px; /* Set your desired width */
-  padding: 16px;
-  border-radius: 8px;
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  background-color: ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
-  box-shadow: ${
-    theme.palette.mode === 'dark'
-      ? `0px 4px 8px rgba(0, 0, 0, 0.7)`
-      : `0px 4px 8px rgba(0, 0, 0, 0.1)`
-  };
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 500;
-  font-size: 0.875rem;
+  background-color: #ececec;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 6px 6px 12px #d1d1d1, -6px -6px 12px #ffffff; /* Neumorphism shadow */
+  text-align: center;
   display: flex;
-  flex-direction: column;
+  justify-content:center;
   align-items: center;
-  gap: 16px;
-  z-index: 1;
 
   h2 {
-    font-size: 1.25rem;
     margin: 0;
+    color: #333;
   }
 
   label {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    color: #333;
+  }
 
-    input[type="checkbox"] {
-      margin-right: 8px;
-    }
+  input[type="checkbox"] {
+    accent-color: #007FFF; /* Customize the color */
+    margin-right: 10px;
   }
 
   select {
-    padding: 8px;
+    background: #f0f0f0;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    box-shadow: inset 4px 4px 8px #d1d1d1, inset -4px -4px 8px #ffffff; /* Neumorphism inset shadow */
+    color: #333;
+    margin-top: 5px;
   }
 
   button {
-    background-color: ${blue[500]};
+    background: #007FFF;
     color: white;
     border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
+    border-radius: 20px;
+    padding: 10px 20px;
     cursor: pointer;
-    transition: background-color 0.15s ease;
+    box-shadow: 4px 4px 8px #d1d1d1, -4px -4px 8px #ffffff; /* Neumorphism shadow */
+    transition: background-color 0.3s;
 
     &:hover {
-      background-color: ${blue[600]};
-    }
-
-    &:active {
-      background-color: ${blue[700]};
+      background-color: #005f99; /* Darker shade on hover */
     }
   }
+
 `,
 );
 
