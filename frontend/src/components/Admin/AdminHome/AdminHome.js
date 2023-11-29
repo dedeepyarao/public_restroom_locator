@@ -409,9 +409,9 @@ useEffect(()=>{
                 
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <Typography variant="h6">{data.name}</Typography>
-                  <IconButton color="primary">
+                  {/* <IconButton color="primary">
                     <EditIcon />
-                  </IconButton>
+                  </IconButton> */}
                   <IconButton color="secondary" onClick={() => handleDelete(data.id)}>
                     <DeleteIcon />
                   </IconButton>

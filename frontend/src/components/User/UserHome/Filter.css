@@ -1,0 +1,110 @@
+.places-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Creates a responsive grid */
+    gap: 20px; /* Space between cards */
+    padding: 20px;
+    align-items: start;
+  }
+  
+  .place-card {
+    background: black;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    color: white; /* Change based on your color scheme */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .place-card:hover {
+    transform: scale(1.05); /* Slightly enlarges the card on hover */
+  }
+  
+  .place-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+  }
+  
+  .place-card p {
+    margin: 5px 0;
+  }
+
+  .user-location {
+    display: flex;
+    margin-left: 100px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+    color: black; /* Adjust the color based on your theme */
+    text-align: left;
+    padding-left: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    width: 30%;
+}
+
+.user-location h3 {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold; /* Adjust as needed */
+}
+
+.filter-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;  
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* To ensure it appears above other content */
+  width: 300px; /* Adjust as needed */
+  color: black;
+}
+
+.filter-modal label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.filter-modal input[type="number"],
+.filter-modal input[type="checkbox"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid white;
+  background-color: transparent;
+  color: black;
+}
+
+.filter-modal input[type="checkbox"] {
+  width: auto;
+}
+
+.filter-modal button {
+  background: white;
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+
+.filter-modal button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
