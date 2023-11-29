@@ -1,41 +1,115 @@
-/* Style for the search container */
+/* Style for the search container and input field */
 .search-container {
-    display: flex;
-    align-items: center;
-    margin: 10px;
-  }
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
-  /* Style for the search input field */
-  .search-container input {
-    flex: 1; /* Take up remaining space */
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    outline: none;
-    transition: border-color 0.2s;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  color: black;
+  border: 1px solid rgba(20, 19, 19, 0.3);
+  outline: none;
+  transition: width 0.4s ease;
+}
+
+.search-container input:focus {
+  width: 110%;
+}
+
+.search-container button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: rgb(6, 6, 6);
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.search-container button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+
+
+
+
+
+  /* General Styles */
+
+
+/* Container for the Entire Map Section */
+.map-section {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Neumorphism Effect */
+.neu {
+  background: #ececec;
+  border-radius: 10px;
+  box-shadow:  8px 8px 15px #a3a3a3, -8px -8px 15px #ffffff;
+}
+
+/* Map Container Styles */
+.map-container {
+  height: 400px; /* Adjust as necessary */
+  border-radius: 15px;
+  margin: 10px auto;
+  box-shadow: 6px 6px 12px #d1d1d1, -6px -6px 12px #ffffff; /* Neumorphism shadow */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for Map Control Buttons */
+.map-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+button {
+  background: #ececec;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 4px 4px 8px #d1d1d1, -4px -4px 8px #ffffff; /* Neumorphism shadow */
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Popup Body Style */
+.PopupBody {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px #a3a3a3, -5px -5px 10px #ffffff; /* Neumorphism shadow */
+  margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .map-container, .map-controls {
+    width: 90%;
+    margin: 10px auto;
   }
-  
-  /* Style for the search input field when focused */
-  .search-container input:focus {
-    border-color: #007BFF;
-  }
-  
-  /* Style for the search button */
-  .search-container button {
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    margin-left: 10px;
-  }
-  
-  /* Style for the search button on hover */
-  .search-container button:hover {
-    background-color: #0056b3;
-  }
-  
+}
+
+/* Additional styles for other elements as needed */
