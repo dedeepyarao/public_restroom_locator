@@ -37,7 +37,8 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import Review from '../../Review/Review';
 import Testimonal from '../../Testimonal/Testimonal';
 import RecommendIcon from '@mui/icons-material/Recommend';
-
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 const drawerWidth = 240;
 
 
@@ -97,6 +98,20 @@ function UserHome() {
   const navigate = useNavigate();
   const changetoAdmin = () =>{
     navigate('/admin')
+  }
+  const changetoFil = () => {
+    navigate('/filters')
+  }
+
+  const changetoSer = () => {
+    navigate('/search')
+  }
+
+  const changetoQr = () => {
+    navigate('/qrs')
+  }
+  const changetoRec = () => {
+    navigate('/recommendations')
   }
   const handleLogout = () => {
     const auth = getAuth();
@@ -172,11 +187,23 @@ function UserHome() {
                 </ListItemIcon>
                 <ListItemText primary="User Login" />
               </ListItemButton>
-              <ListItemButton >
+              <ListItemButton onClick={changetoRec} >
                 <ListItemIcon>
                   <RecommendIcon />
                 </ListItemIcon>
                 <ListItemText primary="Recommendations" />
+              </ListItemButton>
+              <ListItemButton onClick={changetoQr} >
+                <ListItemIcon>
+                  <QrCodeScannerIcon />
+                </ListItemIcon>
+                <ListItemText primary="Qr's" />
+              </ListItemButton>
+              <ListItemButton onClick={changetoFil} >
+                <ListItemIcon>
+                  <FilterAltIcon />
+                </ListItemIcon>
+                <ListItemText primary="Filters" />
               </ListItemButton>
               <ListItemButton onClick={handleLogout}>
                 <ListItemIcon>
